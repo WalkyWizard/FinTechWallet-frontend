@@ -1,1 +1,19 @@
-.auth-shell { display: flex; flex-direction: column; min-height: 100vh; background: #151515; }.auth-section { display: grid; flex: 1; place-items: center; padding: 30px 0 72px; }@media (max-width: 820px) { .auth-section { padding-top: 20px; } }
+.auth-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #151515;
+}
+
+.auth-section {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding: 30px 0 72px;
+}
+
+@media (max-width: 820px) {
+  .auth-section {
+    padding-top: 20px;
+  }
+}
