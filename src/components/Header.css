@@ -1,0 +1,11 @@
+.header { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 92px; }
+.brand { color: #f7f5ed; font: 700 20px/1 'Manrope', sans-serif; letter-spacing: -0.8px; }
+.brand span { color: #f2d656; }
+.header-actions { display: flex; align-items: center; gap: 23px; }
+.sign-in { color: #b8b9ad; font-size: 14px; transition: color 0.2s ease; }
+.sign-in:hover { color: #f6f4eb; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 17px; padding: 15px 20px; border: 0; border-radius: 6px; background: #ead35c; color: #161710; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s ease; }
+.button:hover { background: #f6de66; }
+.button span { font-size: 20px; line-height: 11px; }
+.button-small { padding: 12px 15px; border-radius: 8px; font-size: 13px; }
+@media (max-width: 500px) { .header { height: 76px; }.sign-in { display: none; }.button-small { padding: 11px 12px; } }
