@@ -28,6 +28,14 @@
   transition: color 0.2s ease;
 }
 
+.header-button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
 .sign-in:hover {
   color: #f6f4eb;
 }

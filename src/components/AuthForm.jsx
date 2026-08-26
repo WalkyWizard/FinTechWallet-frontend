@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import hiddenEye from '../assets/hiddeneye.svg'
 import openEye from '../assets/openeye.svg'
+import { loginUser, registerUser } from '../services/api'
 import './AuthForm.css'
 
 function PasswordField({ value, onChange, error }) {
@@ -39,6 +40,8 @@ function AuthForm({ type }) {
   const isRegister = type === 'register'
   const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
+  const [submitError, setSubmitError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const updateField = (field) => (event) => {
     setForm({ ...form, [field]: event.target.value })
@@ -68,11 +71,20 @@ function AuthForm({ type }) {
     return Object.keys(nextErrors).length === 0
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    if (!validateForm()) return
 
-    if (validateForm()) {
-      window.location.hash = isRegister ? 'login' : 'top'
+    setSubmitError('')
+    setIsSubmitting(true)
+    try {
+      if (isRegister) await registerUser(form)
+      else await loginUser({ email: form.email, password: form.password })
+      window.location.hash = isRegister ? 'login' : 'wallets'
+    } catch (error) {
+      setSubmitError(error.message)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -124,9 +136,11 @@ function AuthForm({ type }) {
         />
       </div>
 
-      <button className="button auth-submit" type="submit">
-        {isRegister ? 'Зареєструватися' : 'Увійти'}
+      <button className="button auth-submit" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Обробка...' : isRegister ? 'Зареєструватися' : 'Увійти'}
       </button>
+
+      {submitError && <p className="form-error" role="alert">{submitError}</p>}
 
       <p className="auth-switch">
         {isRegister ? 'Вже маєте акаунт?' : 'Ще не маєте акаунта?'}

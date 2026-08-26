@@ -111,6 +111,19 @@
   margin-top: 28px;
 }
 
+.auth-submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.form-error {
+  margin: 12px 0 0;
+  color: #f08b7c;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
 .auth-switch {
   display: flex;
   justify-content: center;
