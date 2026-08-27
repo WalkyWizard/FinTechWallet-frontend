@@ -1,4 +1,4 @@
-# Samsung Frontend
+# FinTechWallet-frontend
 
 ## Как открыть проект локально
 
