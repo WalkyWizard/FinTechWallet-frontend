@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   height: 92px;
 }
 
@@ -16,10 +16,33 @@
   color: #f2d656;
 }
 
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-link {
+  color: #92948b;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #f7f5ed;
+}
+
+.nav-link.active {
+  color: #ead35c;
+  font-weight: 700;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 23px;
+  gap: 18px;
 }
 
 .sign-in {
@@ -38,6 +61,21 @@
 
 .sign-in:hover {
   color: #f6f4eb;
+}
+
+.logout-button {
+  padding: 8px 12px;
+  border: 1px solid #33332e;
+  border-radius: 6px;
+  color: #f08b7c;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  border-color: #f08b7c;
+  background: rgba(240, 139, 124, 0.1);
+  color: #f08b7c;
 }
 
 .button {
@@ -67,21 +105,35 @@
 }
 
 .button-small {
-  padding: 12px 15px;
-  border-radius: 8px;
+  padding: 11px 16px;
+  border-radius: 6px;
   font-size: 13px;
+  gap: 8px;
+}
+
+@media (max-width: 720px) {
+  .header {
+    height: auto;
+    padding: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .header-nav {
+    order: 3;
+    width: 100%;
+    gap: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #232320;
+  }
 }
 
 @media (max-width: 500px) {
-  .header {
-    height: 76px;
-  }
-
-  .sign-in {
-    display: none;
+  .header-actions {
+    gap: 10px;
   }
 
   .button-small {
-    padding: 11px 12px;
+    padding: 9px 12px;
+    font-size: 12px;
   }
 }

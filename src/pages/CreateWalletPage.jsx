@@ -25,7 +25,7 @@ function CreateWalletPage() {
 
   return (
     <main className="site-shell auth-shell">
-      <Header page="wallets" />
+      <Header page="create-wallet" />
       <section className="auth-section container">
         <form className="auth-card" onSubmit={handleSubmit} noValidate>
           <p className="auth-kicker">Новий гаманець</p>

@@ -2,44 +2,58 @@ import './Header.css'
 import { getAuth, logout } from '../services/api'
 
 function Header({ page }) {
-  const isHome = page === 'home'
-  const isWalletArea = page === 'wallets' || page === 'wallet'
-  const isAuthenticated = Boolean(getAuth()?.access_token)
-  const authLink = page === 'login' ? '#register' : '#login'
-  const authLabel = page === 'login' ? 'Створити акаунт' : 'Увійти'
+  const auth = getAuth()
+  const isAuthenticated = Boolean(auth?.access_token)
+  const isAdmin = auth?.role === 'admin'
+
+  const handleLogout = () => {
+    logout()
+    window.location.hash = 'login'
+  }
 
   return (
     <header className="header container">
-      <a className="brand" href="#top" aria-label="PleaseHelp — головна">
+      <a className="brand" href="#home" aria-label="PleaseHelp — головна">
         Please<span>Help</span>
       </a>
 
-      {isHome && !isAuthenticated ? (
-        <div className="header-actions">
-          <a className="sign-in" href="#login">
-            Увійти
+      <nav className="header-nav">
+        <a className={`nav-link ${page === 'home' ? 'active' : ''}`} href="#home">
+          Головна
+        </a>
+        {isAuthenticated && (
+          <a className={`nav-link ${page === 'wallets' || page === 'wallet' ? 'active' : ''}`} href="#wallets">
+            Мої гаманці
           </a>
-          <a className="button button-small" href="#register">
-            Зареєструватися
+        )}
+        {isAuthenticated && isAdmin && (
+          <a className={`nav-link ${page === 'admin' ? 'active' : ''}`} href="#admin">
+            Адмін-панель
           </a>
-        </div>
-      ) : isWalletArea ? (
-        <div className="header-actions">
-          <a className="sign-in" href="#wallets">Мої гаманці</a>
-          {getAuth()?.role === 'admin' && <a className="sign-in" href="#admin">Адмін-панель</a>}
-          <a className="button button-small" href="#create-wallet">Створити гаманець</a>
-          <button className="sign-in header-button" type="button" onClick={() => { logout(); window.location.hash = 'login' }}>Вийти</button>
-        </div>
-      ) : page === 'admin' ? (
-        <div className="header-actions">
-          <a className="sign-in" href="#wallets">Мої гаманці</a>
-          <button className="sign-in header-button" type="button" onClick={() => { logout(); window.location.hash = 'login' }}>Вийти</button>
-        </div>
-      ) : (
-        isAuthenticated
-          ? <button className="sign-in header-button" type="button" onClick={() => { logout(); window.location.hash = 'login' }}>Вийти</button>
-          : <a className="sign-in" href={authLink}>{authLabel}</a>
-      )}
+        )}
+      </nav>
+
+      <div className="header-actions">
+        {isAuthenticated ? (
+          <>
+            <a className="button button-small" href="#create-wallet">
+              + Створити гаманець
+            </a>
+            <button className="sign-in header-button logout-button" type="button" onClick={handleLogout}>
+              Вийти
+            </button>
+          </>
+        ) : (
+          <>
+            <a className={`sign-in ${page === 'login' ? 'active-auth' : ''}`} href="#login">
+              Увійти
+            </a>
+            <a className="button button-small" href="#register">
+              Зареєструватися
+            </a>
+          </>
+        )}
+      </div>
     </header>
   )
 }

@@ -70,28 +70,29 @@ export function getWallet(walletId) {
   return request(`/wallets/user/${walletId}`)
 }
 
-export function getHistory(walletId) {
-  return request(`/transactions/history/${walletId}`)
+export function getHistory(walletId, tranType = 'all') {
+  const query = tranType && tranType !== 'all' ? `?tran_type=${tranType}` : ''
+  return request(`/transactions/history/${walletId}${query}`)
 }
 
 export function deposit(walletId, amount) {
-  return jsonRequest('/transactions/deposit', 'POST', { wallet_id: walletId, amount })
+  return jsonRequest('/transactions/deposit', 'POST', { wallet_id: Number(walletId), amount: Number(amount) })
 }
 
 export function withdraw(walletId, amount) {
-  return jsonRequest('/transactions/withdraw', 'POST', { wallet_id: walletId, amount })
+  return jsonRequest('/transactions/withdraw', 'POST', { wallet_id: Number(walletId), amount: Number(amount) })
 }
 
 export function transfer(senderWalletId, receiverAddress, amount) {
   return jsonRequest('/transactions/transfer', 'POST', {
-    sender_wallet_id: senderWalletId,
-    receiver_address: receiverAddress,
-    amount,
+    sender_wallet_id: Number(senderWalletId),
+    receiver_address: receiverAddress.trim(),
+    amount: Number(amount),
   })
 }
 
-export function getPendingTransfers() {
-  return request('/transactions/pending')
+export function getPendingTransfers(walletId) {
+  return request(`/transactions/pending/${walletId}`)
 }
 
 export function acceptTransfer(transactionId) {
@@ -106,10 +107,35 @@ export function getAdminUsers() {
   return request('/admin/users')
 }
 
-export function getAdminTransactions() {
-  return request('/admin/transactions')
+export function getAdminTransactions(tranType = 'all', userId = null) {
+  const params = new URLSearchParams()
+  if (tranType && tranType !== 'all') params.append('tran_type', tranType)
+  if (userId) params.append('user_id', userId)
+  const query = params.toString() ? `?${params.toString()}` : ''
+  return request(`/admin/transactions${query}`)
+}
+
+export function getAdminUserWallets(userId = null) {
+  const query = userId ? `?user_id=${userId}` : ''
+  return request(`/admin/user/wallets${query}`)
 }
 
 export function setUserBlocked(userId, blocked) {
   return request(`/admin/users/${userId}/${blocked ? 'block' : 'unblock'}`, { method: 'POST' })
+}
+
+export function getDashboardClients() {
+  return request('/dashboard/clients')
+}
+
+export function getDashboardTransactions() {
+  return request('/dashboard/transactions')
+}
+
+export function getDashboardWithdraw() {
+  return request('/dashboard/withdraw')
+}
+
+export function getDashboardUsersTime() {
+  return request('/dashboard/users/time')
 }
